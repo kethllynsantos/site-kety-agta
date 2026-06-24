@@ -251,6 +251,24 @@ function cadastrar() {
     <h3>Carrinho 🛒</h3>
     <p>Finalize sua compra no WhatsApp</p>
     <button onclick="finalizarCompra()">Finalizar Compra</button>
+    function finalizarCompra(){
+
+  if(carrinho.length === 0){
+    alert("Carrinho vazio");
+    return;
+  }
+
+  let msg = "Olá! Gostaria de finalizar minha compra:%0A%0A";
+
+  carrinho.forEach(item=>{
+    msg += `• ${item.nome} - R$ ${item.preco.toFixed(2)}%0A`;
+  });
+
+  window.open(
+    "https://wa.me/44998906149text=" + msg,
+    "_blank"
+  );
+}
   </div>
 </section>
 
