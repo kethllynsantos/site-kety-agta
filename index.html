@@ -1,130 +1,186 @@
-!DOCTYPE html>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+header {
+  background: #be9b8d;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: white;
+  padding: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+form {
+  max-width: 300px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+}
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+// adicionar produto
+function addCarrinho(nome, preco) {
+  carrinho.push({ nome, preco });
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  alert(nome + " adicionado ao carrinho!");
+}
+
+// finalizar compra WhatsApp
+function finalizarCompra() {
+  let msg = "Quero comprar:%0A";
+
+  carrinho.forEach(item => {
+    msg += `- ${item.nome} R$ ${item.preco}%0A`;
+  });
+
+  window.open(
+    "https://wa.me/5544998906149?text=" + msg,
+    "_blank"
+  );
+}
+
+// cadastro
+function cadastrar() {
+  let nome = document.getElementById("nome").value;
+  let email = document.getElementById("email").value;
+
+  if (!nome || !email) {
+    alert("Preencha tudo!");
+    return;
+  }
+
+  localStorage.setItem("usuario", nome);
+  alert("Bem-vinda(o), " + nome + " 💖");
+}<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cosmeticos</title>
+<meta charset="UTF-8">
+<title>Bella Essência</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h1><bem-vindos-a-BelaEssencia/h1>
-</p>Bem-vindo ao nosso mundo de beleza! 🌸
-Estamos muito felizes em ter você conosco em nossa loja online de cosméticos. Aqui, você encontrará produtos incríveis para cuidar da sua pele, cabelo e bem-estar
-. Nossa missão é trazer qualidade, inovação e, claro, muito amor para cada detalhe da sua rotina de cuidados pessoais.
-Pagamento fácil e seguro: escolha entre cartão de crédito, débito, boleto ou parcelamento. Tudo rápido e sem complicação.
 
-</head>
 <body>
 
-<header>✧˚.🎀⋆Bella Essência</header>
+<header>
+  <h1>Bella Essência ✨</h1>
+  <p>Cosméticos de luxo acessível</p>
+</header>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="batom matte luxo">
-  <h2>Batom Matte Luxo</h2>
-  <p>R$ 29,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#produtos">Produtos</a>
+  <a href="#cadastro">Cadastro</a>
+</nav>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="perfume egeo dolce">
-  <h2>Perfume Egeo Dolce</h2>
-  <p>R$ 160,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+<!-- HOME -->
+<section id="home" class="container">
+  <div class="card">
+    <h2>Bem-vindo 💖</h2>
+    <p>Sua loja de beleza favorita</p>
+  </div>
+</section>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt=" perfume egeo spicy dolce">
-  <h2>Perfume Egeo spicy vibe</h2>
-  <p>R$ 170,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+<!-- CADASTRO -->
+<section id="cadastro" class="container">
+  <div class="card">
+    <h3>Cadastro</h3>
+    <input id="nome" placeholder="Nome">
+    <input id="email" placeholder="Email">
+    <button onclick="cadastrar()">Cadastrar</button>
+  </div>
+</section>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="Perfume Feminio Elegante">
-  <h2>Perfume Feminino Elegante</h2>
-  <p>R$ 89,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+<!-- PRODUTOS -->
+<section id="produtos" class="container">
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="perfume florata">
-  <h2>Perfume florata</h2>
-  <p>R$ 175,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Batom Matte Luxo</h3>
+    <p>R$ 29,90</p>
+    <button onclick="addCarrinho('Batom Matte Luxo', 29.90)">Comprar</button>
+  </div>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="malbec gold">
-  <h2>malbec gold</h2>
-  <p>R$ 185,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Perfume Egeo Dolce</h3>
+    <p>R$ 160,90</p>
+    <button onclick="addCarrinho('Perfume Egeo Dolce', 160.90)">Comprar</button>
+  </div>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="egeo choc">
-  <h2> Egeo Choc</h2>
-  <p>R$ 175,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Sauvage Dior</h3>
+    <p>R$ 751,90</p>
+    <button onclick="addCarrinho('Sauvage Dior', 751.90)">Comprar</button>
+  </div>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="gloos acido">
-  <h2>Gloos acido</h2>
-  <p>R$ 20,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+</section>
 
-<div class="produto">
-   <img src="file:///tmp/guest-vj4eod/%C3%81rea%20de%20Trabalho/Screenshot_2026-03-18_100136.webp.jpg" alt="gloos franciny">
-  <h2>Gloos franciny</h2>
-  <p>R$ 35,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
+<!-- CARRINHO -->
+<section class="container">
+  <div class="card">
+    <h3>Carrinho 🛒</h3>
+    <p>Finalize sua compra no WhatsApp</p>
+    <button onclick="finalizarCompra()">Finalizar Compra</button>
+  </div>
+</section>
 
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="gloos franciny">
-  <h2>Gloos franciny</h2>
-  <p>R$ 35,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
-
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="gloos franciny">
-  <h2>Gloos franciny</h2>
-  <p>R$ 35,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
-
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="perfume sauvage dior">
-  <h2>Sauvage Dior</h2>
-  <p>R$ 751,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
-
-
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="Combo cuide-se bem deleite cramelizado: body splash 200ml + loção corporal 400ml">
-  <h2>Combo Cuide-se Bem Deleite Caramelizado: Body Splash 200ml + Loção Corporal 400ml</h2>
-  <p>R$ 127,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
-
-<div class="produto">
-   <img src="caminho/para/sua-imagem2.jpg" alt="body splash cuide-se bem deleite 200ml">
-  <h2>Body Splash Cuide-Se Bem Deleite 200ml
-</h2>
-  <p>R$ 92,90</p>
-  <button onclick="comprar()">Comprar</button>
-</div>
-
-<script>
-function comprar() {
-  window.location.href = "https://wa.me/55(44)998906149?text=Quero%20comprar%20na%20Bella%20Essência";
-}
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
-
-<
-
